@@ -37,10 +37,10 @@ class ServerCtrl(threading.Thread):
                 (self.client_sock, self.client_addr) = self.sock.accept()
                 self.logger.info("Client connected: %s" % self.client_addr[0])
                 self.listenServer()
-            except ServerCtrlStopRequestException, err:
+            except ServerCtrlStopRequestException as err:
                 self.logger.error(err)
                 self.cleanup()
-            except Exception, err:
+            except Exception as err:
                 self.logger.error(err)
                 self.cleanup()
                 self.logger.info("Waiting for reconnect.")
@@ -56,7 +56,7 @@ class ServerCtrl(threading.Thread):
         try:
             while not self.main_class.server_queue.empty():
                 msg=self.main_class.server_queue.get_nowait()
-        except Exception,err:
+        except Exception as err:
             self.logger.error(err)
             
         while self.client_sock != None:
@@ -89,7 +89,7 @@ class ServerCtrl(threading.Thread):
             elif self.client_sock in except_ready:
                 try:
                     self.logger.error("Except situation")
-                except Exception,err:
+                except Exception as err:
                     self.logger.error(err)
                 
 
@@ -112,7 +112,7 @@ class ServerCtrl(threading.Thread):
             self.sock.close()
             self.client_sock = None
             self.sock = None
-        except Exception, err: pass
+        except Exception as err: pass
 
 
 

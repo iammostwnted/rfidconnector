@@ -22,11 +22,11 @@ __date__      = "6 September 2011"
 __copyright__ = "Copyright (C) 2008-2009,2010,2011 Sirit Technologies. All Rights Reserved."
 __credits__   = "Guido van Rossum, for an excellent programming language."
 
-params = {'HOST'                   : 'localhost',  # Reader host.
+params = {'HOST'                   : '192.168.1.111',  # Reader host.
           'MDM_PORT'               : 50007,        # Modem channel port.
           'MDM_BUF_SIZE'           : 4096,         # Modem channels buffer size.
           'MDM_CONN_RETRY_STEP'    : 5,            # Modem channel retry step to reconnect.
-          'EVT_PORT'               : 50008,        # Event channel port.
+          'EVT_PORT'               : 50008,        # Event channel port. 50008
           'EVT_BUF_SIZE'           : 1024,         # Event channels buffer size.
           'EVT_CONN_RETRY_STEP'    : 5,            # Event channel retry step to reconnect.
 #          'SERIAL_PORT'            : 0,            # Serial port number.
@@ -78,7 +78,7 @@ def usage():
                "  --console         Display the logs on console.\n"                             \
                "  --hexa            Assume that the tag number is hexa instead of BCD"\
                "  --epc             form the string from the tag_id instead of the TID"
-    print help_txt
+    print (help_txt)
 
 
 def checkOpts(params):
@@ -86,9 +86,9 @@ def checkOpts(params):
         #long_opts = ['help', 'version', 'host=', 'mdmport=', 'evtport=', 'debug=', 'console', 'baudrate=','hexa','epc']
         long_opts = ['help', 'version', 'host=', 'mdmport=', 'evtport=', 'debug=', 'console', 'hexa', 'epc']
         opts, args = getopt.getopt(sys.argv[1:], 'h', long_opts)
-    except getopt.GetoptError, err:
+    except getopt.GetoptError as err:
         #Print help information and exit.
-        print err
+        print (err)
         usage()
         sys.exit(2)
 
@@ -97,18 +97,18 @@ def checkOpts(params):
             usage()
             sys.exit()
         elif o == '--version':
-            print __app_name__, __version__, __date__, '\n', __copyright__
+            print (__app_name__, __version__, __date__, '\n', __copyright__)
             sys.exit()
         elif o == '--host':
             params['HOST'] = a
         elif o == '--mdmport':
             try:
                 params['MDM_PORT'] = int(a)
-            except ValueError, err: pass
+            except ValueError: pass
         elif o == '--evtport':
             try:
                 params['EVT_PORT'] = int(a)
-            except ValueError, err: pass
+            except ValueError: pass
         elif o == '--debug':
             if a in ('debug', 'info', 'warning', 'error', 'critical'):
                 params['DEBUG_LEVEL'] = a
@@ -121,7 +121,7 @@ def checkOpts(params):
 #        elif o == '--baudrate':
 #            try:
 #                params['SERIAL_BAUDRATE'] = str(a)
-#            except ValueError, err: pass
+#            except ValueError: pass
         else:
             assert False, 'Unhandled option'
 
@@ -216,14 +216,14 @@ if __name__ == '__main__':
         waitThreads()
         
         
-    except SystemExit, err:
+    except SystemExit as err:
         pass
-    except Exception, err:
+    except Exception as err:
         traceback.print_exc(sys.stdout)
-        print "\nGeneral Failure, please contact Sirit."
-        print __app_name__, __version__, __date__
-        print __copyright__
-        print "Contact:", __author__
+        print ("\nGeneral Failure, please contact Sirit.")
+        print (__app_name__, __version__, __date__)
+        print (__copyright__)
+        print ("Contact:", __author__)
 
 
 

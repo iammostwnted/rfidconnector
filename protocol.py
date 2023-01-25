@@ -34,7 +34,7 @@ class Protocol:
                 msgFunc(serial_msg)
             else:
                 self.ans_queue.put("error.parser.unknown_variable")
-        except Exception, err:
+        except Exception as err:
             traceback.print_exc(sys.stdout)
             serial_msg_err = ', '.join([hex(ord(c)) for c in serial_msg])
             self.logger.info("Error on process serial command. (%s)" % serial_msg_err)
@@ -44,7 +44,7 @@ class Protocol:
     def discoverMsg(self, serial_msg):
         try:
            msg = serial_msg.strip().split(' ')[0] 
-        except Exception, err:
+        except Exception as err:
             return None
         
         if msg in self.dic_msgs.keys():
@@ -206,7 +206,7 @@ class Protocol:
                 # #serial_msg_ret += "\r\nok %i" % time_in_seconds
                 #serial_msg_ret += "\r\n %i" % time_in_seconds
                 serial_msg_ret = "value = %i = 0x%x" % (time_in_seconds,time_in_seconds) #changed @RVA 20100330
-            except Exception, err:
+            except Exception as err:
                 self.logger.info("Invalid value for seconds.")
                 serial_msg_ret = "error.parser.illegal_value\r\n"
         self.sendResponse(serial_msg_ret, 'set_currr_time_in_sec')

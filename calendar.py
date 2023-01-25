@@ -84,8 +84,7 @@ def setfirstweekday(weekday):
     """Set weekday (Monday=0, Sunday=6) to start each week."""
     global _firstweekday
     if not MONDAY <= weekday <= SUNDAY:
-        raise ValueError, \
-              'bad weekday number; must be 0 (Monday) to 6 (Sunday)'
+        raise ValueError('bad weekday number; must be 0 (Monday) to 6 (Sunday)')
     _firstweekday = weekday
 
 def isleap(year):
@@ -108,7 +107,7 @@ def monthrange(year, month):
     """Return weekday (0-6 ~ Mon-Sun) and number of days (28-31) for
        year, month."""
     if not 1 <= month <= 12:
-        raise ValueError, 'bad month number'
+        raise ValueError('bad month number')
     day1 = weekday(year, month, 1)
     ndays = mdays[month] + (month == February and isleap(year))
     return day1, ndays
@@ -130,7 +129,7 @@ def monthcalendar(year, month):
 
 def prweek(theweek, width):
     """Print a single week (no newline)."""
-    print week(theweek, width),
+    print (week(theweek, width)),
 
 def week(theweek, width):
     """Returns a single week in a string (no newline)."""
@@ -156,7 +155,7 @@ def weekheader(width):
 
 def prmonth(theyear, themonth, w=0, l=0):
     """Print a month's calendar."""
-    print month(theyear, themonth, w, l),
+    print (month(theyear, themonth, w, l)),
 
 def month(theyear, themonth, w=0, l=0):
     """Return a month's calendar string (multi-line)."""
@@ -175,7 +174,7 @@ _spacing = 6                # Number of spaces between columns
 
 def format3c(a, b, c, colwidth=_colwidth, spacing=_spacing):
     """Prints 3-column formatting for year calendars"""
-    print format3cstring(a, b, c, colwidth, spacing)
+    print (format3cstring(a, b, c, colwidth, spacing))
 
 def format3cstring(a, b, c, colwidth=_colwidth, spacing=_spacing):
     """Returns a string formatted from 3 strings, centered within 3 columns."""
@@ -184,7 +183,7 @@ def format3cstring(a, b, c, colwidth=_colwidth, spacing=_spacing):
 
 def prcal(year, w=0, l=0, c=_spacing):
     """Print a year's calendar."""
-    print calendar(year, w, l, c),
+    print (calendar(year, w, l, c)),
 
 def calendar(year, w=0, l=0, c=_spacing):
     """Returns a year's calendar as a multi-line string."""

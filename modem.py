@@ -27,10 +27,10 @@ class Modem(threading.Thread):
                 self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 self.sock.connect((self.host, self.port))
                 self.processCmdQueue()
-            except ModemChannelStopRequestException, err:
+            except ModemChannelStopRequestException as err:
                 self.logger.error(err)
                 self.cleanup()
-            except Exception, err:
+            except Exception as err:
                 self.logger.error(err)
                 self.cleanup()
                 self.logger.info("Waiting for reconnect.")
@@ -93,7 +93,7 @@ class Modem(threading.Thread):
         try:
             self.logger.info("Closing modem channel.")
             self.sock.close()
-        except Exception, err: pass
+        except Exception as err: pass
 
 
 

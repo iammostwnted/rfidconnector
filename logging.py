@@ -26,8 +26,8 @@ Copyright (C) 2001-2004 Vinay Sajip. All Rights Reserved.
 To use, simply 'import logging' and log away!
 """
 
-import sys, os, types, time, string, cStringIO, traceback
-
+import sys, os, types, time, string, traceback
+from io import StringIO
 try:
     import codecs
 except ImportError:
@@ -54,7 +54,7 @@ __date__    = "27 March 2005"
 #
 if hasattr(sys, 'frozen'): #support for py2exe
     _srcfile = "logging%s__init__%s" % (os.sep, __file__[-4:])
-elif string.lower(__file__[-4:]) in ['.pyc', '.pyo']:
+elif __file__[-4:].lower() in ['.pyc', '.pyo']:
     _srcfile = __file__[:-4] + '.py'
 else:
     _srcfile = __file__
@@ -379,7 +379,7 @@ class Formatter:
         This default implementation just uses
         traceback.print_exception()
         """
-        sio = cStringIO.StringIO()
+        sio = StringIO
         traceback.print_exception(ei[0], ei[1], ei[2], None, sio)
         s = sio.getvalue()
         sio.close()
@@ -621,8 +621,8 @@ class Handler(Filterer):
         This version is intended to be implemented by subclasses and so
         raises a NotImplementedError.
         """
-        raise NotImplementedError, 'emit must be implemented '\
-                                    'by Handler subclasses'
+        raise NotImplementedError( 'emit must be implemented '\
+                                    'by Handler subclasses')
 
     def handle(self, record):
         """
@@ -803,8 +803,8 @@ def setLoggerClass(klass):
     """
     if klass != Logger:
         if not issubclass(klass, Logger):
-            raise TypeError, "logger not derived from logging.Logger: " + \
-                            klass.__name__
+            raise TypeError( "logger not derived from logging.Logger: " + \
+                            klass.__name__)
     global _loggerClass
     _loggerClass = klass
 
@@ -843,7 +843,7 @@ class Manager:
         rv = None
         _acquireLock()
         try:
-            if self.loggerDict.has_key(name):
+            if name in self.loggerDict:
                 rv = self.loggerDict[name]
                 if isinstance(rv, PlaceHolder):
                     ph = rv
@@ -867,11 +867,11 @@ class Manager:
         from the specified logger to the root of the logger hierarchy.
         """
         name = alogger.name
-        i = string.rfind(name, ".")
+        i = name.rfind(".")
         rv = None
         while (i > 0) and not rv:
             substr = name[:i]
-            if not self.loggerDict.has_key(substr):
+            if not substr in self.loggerDict:
                 self.loggerDict[substr] = PlaceHolder(alogger)
             else:
                 obj = self.loggerDict[substr]
@@ -880,7 +880,7 @@ class Manager:
                 else:
                     assert isinstance(obj, PlaceHolder)
                     obj.append(alogger)
-            i = string.rfind(name, ".", 0, i - 1)
+            i = name.rfind(".", 0, i - 1)
         if not rv:
             rv = self.root
         alogger.parent = rv
@@ -891,7 +891,7 @@ class Manager:
         specified logger.
         """
         for c in ph.loggers:
-            if string.find(c.parent.name, alogger.name) <> 0:
+            if string.find(c.parent.name, alogger.name) != 0:
                 alogger.parent = c.parent
                 c.parent = alogger
 
@@ -1023,7 +1023,7 @@ class Logger(Filterer):
         """
         if type(level) != types.IntType:
             if raiseExceptions:
-                raise TypeError, "level must be an integer"
+                raise TypeError("level must be an integer")
             else:
                 return
         if self.manager.disable >= level:

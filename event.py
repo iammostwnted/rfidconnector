@@ -33,10 +33,10 @@ class Event(threading.Thread):
                 self.configAntenna()
                 self.registerEvents()
                 self.listenEvents()
-            except EventChannelStopRequestException, err:
+            except EventChannelStopRequestException as err:
                 self.logger.error(err)
                 self.cleanup()
-            except Exception, err:
+            except Exception as err:
                 self.logger.error(err)
                 self.cleanup()
                 self.logger.info("Waiting for reconnect.")
@@ -135,8 +135,7 @@ class Event(threading.Thread):
                         if tag[-1]==',':    #take the last comma
                             tag=tag[:-1]
                         
-                        
-			if (len(user_data) >= 26):
+                        if len(user_data) >= 26:
                             vehicle_plate = user_data[2:26] # Used to be [2:22]. See #38483 and #30939
                             vehicle_class = user_data[26:28] # Used to be: [24:26]. See #38483 and #30939
                             
@@ -157,7 +156,7 @@ class Event(threading.Thread):
                         else:
                             self.logger.info("Same tag read, no report sent.")
                     
-        except Exception, err:
+        except Exception as err:
             self.logger.info("Could not process event.")
             self.logger.error(err)
 
@@ -216,7 +215,7 @@ class Event(threading.Thread):
         try:
             self.logger.info("Closing event channel.")
             self.sock.close()
-        except Exception, err: pass
+        except Exception as err: pass
 
 
 
